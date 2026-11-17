@@ -1,0 +1,20 @@
+# Data is never committed (see data/README.md)
+data/raw/
+outputs/
+*.parquet
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# MATLAB
+*.asv
+*.mat
