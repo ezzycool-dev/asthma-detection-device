@@ -107,7 +107,7 @@ emergency calls are **opt-in**, each explained before it turns on. See
 
 | Name | Role |
 | --- | --- |
-| Jana Robert-Oragbon | ML and software: this pipeline; airway model Gens 0-4 |
+| Ezinne Akabueze | ML and software: this pipeline; airway model Gens 0-4 |
 | Anna | Airway model Gens 5-16 |
 | Ryan | Alveolar model; sensor and biomarker decisions |
 | Adeline | Team member |
