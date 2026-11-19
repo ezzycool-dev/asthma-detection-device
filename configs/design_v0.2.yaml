@@ -1,0 +1,61 @@
+# v0.2 design parameters (wearable + prompted blood test).
+# Spec for the v0.3 rebuild; not wired into the v0.1 pipeline yet.
+# Values marked "default" are working assumptions (docs/decisions.md).
+
+wearable:
+  form: wrist                       # default: Apple Watch-style
+  hr_rr_interval_min: 1
+  spo2_background_interval_min: 30  # sparse; mostly when still (user reports)
+  spo2_on_demand_when_risk: rising
+
+blood_test:
+  outputs: [histamine, s1p]         # 2 final values; averaging done in the device
+  sample: plasma
+  result_delay_min: 10              # default: prompt-to-result after test starts
+  start_delay_min: [2, 20]          # default: how long users take to start
+  histamine_lod_ng_ml: null         # default: device resolves resting levels
+  histamine_lod_stress_ng_ml: 1.0   # stress test (strip-test LOD)
+  failure_rate: 0.05                # default: started, no values
+  reprompt_after_failure: 1
+
+prompts:
+  daily_max: null                   # no maximum
+  quiet_after_normal_min: 120       # default
+  second_test_after_high_min: [45, 60]
+  retest_on_watch_clash: 1
+  exercise_flag_window_min: 30
+
+adherence:
+  answer_rate: [0.6, 0.8]
+  stress_answer_rate: 0.4
+
+calm_test:
+  per_day: 1
+  same_time_each_day: true
+  baseline_stat: median
+
+night:
+  sleep_hours_source: watch_sleep_detection   # default; user can override
+  persistence_min: 3                # default
+  urgent_requires: [high_risk, spo2_drop]
+  urgent_without_recent_spo2: hr_rr_only
+  recent_spo2_max_age_min: 60       # default
+  silence_max_hours: 6
+  morning_checkin: true
+  caregiver_share: opt_in
+
+severity:
+  spo2_moderate_pct: 95
+  spo2_severe_pct: 92
+
+alerts:
+  lead_time_target_min: 15
+  cooldown_min: 30
+  ems_countdown_s: [30, 60]
+  limits:
+    normal_test_prompts_per_day: 1.0
+    false_attack_alerts_per_week: 1.0
+
+users:
+  population: adults                # default
+  allergic_only: false              # watch path still covers non-allergic attacks

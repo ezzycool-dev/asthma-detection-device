@@ -1,5 +1,7 @@
 # Privacy by design
 
+> v0.2: wheeze and audio are no longer inputs; the audio lines below apply to v0.1 only.
+
 These are design commitments for the device and app. The research code in this
 repository only processes the anonymised AAMOS-00 dataset.
 

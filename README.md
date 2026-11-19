@@ -1,33 +1,39 @@
 # Asthma Early Warning
 
-**Predicting asthma attacks before symptoms start, from implanted biomarker sensors and a smartwatch.**
+**Predicting asthma attacks before symptoms start, from a wearable and a prompted finger-prick blood test.**
 
 [![tests](../../actions/workflows/tests.yml/badge.svg)](../../actions/workflows/tests.yml)
 
-A Rice University bioengineering team project. The device pairs two
-implanted electrochemical sensors (histamine in interstitial fluid,
-sphingosine-1-phosphate in plasma) with a smartwatch and phone (heart rate,
-respiratory rate, wheeze). This repository holds the machine-learning
-pipeline that turns those signals into a personal risk score:
+A Rice University bioengineering team project. A wrist wearable (heart rate,
+breathing rate, SpO2) runs all the time and decides **when** a test is worth
+taking. When risk is high, the app prompts a portable finger-prick blood test
+(abbieSense-style) that returns histamine and S1P, which **confirms** the
+attack and **grades** its severity. This repository holds the logic and the
+machine-learning pipeline:
 
 - **Likelihood** of an attack in the next 15 minutes, 1 hour and 6 hours
 - **Severity** if one is coming (moderate or worse, severe), using ATS/ERS 2009 definitions
-- **"Why now?"** in plain language, e.g. *"histamine is +268% from your normal"*
+- **Second-wave risk** after an early reaction (from S1P)
+- **"Why now?"** in plain language
 
 ```mermaid
 flowchart LR
-    A[AAMOS-00<br/>watch, inhaler,<br/>peak flow, diaries] --> B[1-min grid +<br/>signal quality]
-    A --> C[Attack episodes<br/>ATS/ERS severity]
-    B --> D[Synthetic histamine,<br/>S1P, RR, wheeze]
-    C --> D
-    D --> E[Personal baselines<br/>14-day median + MAD]
-    E --> F[Causal features<br/>z, % change, rate,<br/>context, profile]
-    F --> G[LightGBM heads<br/>15 min / 1 h / 6 h<br/>+ severity]
-    G --> H[Alerts + cooldown<br/>opt-in EMS]
-    G --> I[Why-now<br/>explanations]
+    W[Wearable<br/>HR, RR, SpO2] --> M[Watch model<br/>risk vs your normal]
+    M -- risk high --> P[Prompt<br/>finger-prick test]
+    P --> T[Blood test<br/>histamine + S1P]
+    T -- normal --> Q[Stay quiet<br/>learn your normal]
+    T -- high --> A[Alert + severity<br/>second-wave check]
+    A -- severe, opt-in --> E[Caregiver / EMS<br/>countdown]
 ```
 
-## Results
+> **Status (v0.2.0).** The design moved from a continuous implant to a
+> wearable + prompted blood test. The full logic is in
+> [`docs/design.md`](docs/design.md), every decision and its reason in
+> [`docs/decisions.md`](docs/decisions.md), and all sources in
+> [`docs/sources.md`](docs/sources.md). The code and results below are from
+> v0.1 (continuous design); v0.3 rebuilds the pipeline for the new design.
+
+## Results (v0.1, continuous design)
 
 Leave-one-person-out on 20 people and 121 attack episodes: the model never sees
 the person it is tested on.
@@ -93,7 +99,7 @@ src/asthma_ew/
 scripts/run_pipeline.py
 tests/           unit tests, including a no-look-ahead check
 physiology/matlab/   the team's airway airflow model (Weibel Gens 0-16)
-docs/            architecture, data and limitations, privacy, results
+docs/            design, decisions, sources, architecture, data and limitations, privacy, results
 ```
 
 ## Privacy by design

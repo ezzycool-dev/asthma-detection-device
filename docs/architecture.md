@@ -1,5 +1,7 @@
 # Architecture and design decisions
 
+> v0.1 architecture (continuous implant). The v0.2 design is in [design.md](design.md).
+
 ## Device concept
 
 | Part | Measures | Why |
