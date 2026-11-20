@@ -114,12 +114,12 @@ emergency calls are **opt-in**, each explained before it turns on. See
 | Name | Role |
 | --- | --- |
 | Ezinne Akabueze | ML and software: this pipeline; airway model Gens 0-4 |
-| Anna | Airway model Gens 5-16 |
-| Ryan | Alveolar model; sensor and biomarker decisions |
-| Adeline | Team member |
-| Bolu | Team member |
+| Anna |Pugh Matrix |
+| Ryan | Biomarker Decisions - S1P|
+| Adeline | Biomarker Decisions - Histamine |
+| Bolu | CAD |
 | Kevin | Team member |
-| Emi | Team member |
+| Emi | Writing |
 
 ## References
 
